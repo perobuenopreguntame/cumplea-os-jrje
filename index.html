@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRITICAL SYSTEM - AUTHORIZED ACCESS ONLY</title>
+    <style>
+        body { margin: 0; padding: 0; background-color: black; overflow: hidden; font-family: 'Courier New', Courier, monospace; color: #00FF41; }
+        canvas { display: block; position: fixed; top: 0; left: 0; z-index: 1; }
+
+        .interface {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 20px;
+        }
+
+        .terminal {
+            background: rgba(0, 15, 0, 0.95);
+            border: 2px solid #00FF41;
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.5);
+            padding: 30px;
+            width: 100%;
+            max-width: 600px;
+            position: relative;
+            text-align: left;
+        }
+
+        .glitch {
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-align: center;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .scanline {
+            width: 100%; height: 3px; background: rgba(0, 255, 65, 0.1);
+            position: absolute; top: 0; left: 0; animation: scan 3s linear infinite;
+        }
+
+        @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
+
+        .mensaje-texto {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin: 20px 0;
+            min-height: 250px;
+            white-space: pre-wrap;
+        }
+
+        #foto-suegro {
+            display: none;
+            width: 180px;
+            height: 180px;
+            border: 3px solid #00FF41;
+            border-radius: 50%;
+            margin: 20px auto;
+            object-fit: cover;
+            box-shadow: 0 0 20px #00FF41;
+            animation: appearing 2s ease-in;
+        }
+
+        @keyframes appearing {
+            0% { opacity: 0; filter: brightness(500%); transform: scale(0.5); }
+            100% { opacity: 1; filter: brightness(100%); transform: scale(1); }
+        }
+
+        .btn-hacking {
+            display: block;
+            margin: 20px auto;
+            background: transparent;
+            color: #00FF41;
+            border: 2px solid #00FF41;
+            padding: 15px 30px;
+            font-size: 1rem;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+
+        .btn-hacking:hover { background: #00FF41; color: black; box-shadow: 0 0 20px #00FF41; }
+
+        .firma {
+            text-align: right;
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #00FF41;
+            text-shadow: 0 0 10px #00FF41;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="matrix"></canvas>
+
+    <div class="interface">
+        <div class="terminal">
+            <div class="scanline"></div>
+            <div class="glitch" id="titulo">IDENTITY DETECTED</div>
+            <div style="text-align: center; font-size: 0.7rem; color: #88ff88;">STATUS: FULL ACCESS GRANTED</div>
+            
+            <hr border="1" color="#00FF41" style="margin: 15px 0;">
+            
+            <div class="mensaje-texto" id="escritura">SYSTEM: Personal file located. Waiting for user decryption...</div>
+            
+            <img src="foto.jpg" id="foto-suegro" alt="Legendary Father">
+
+            <button id="boton" class="btn-hacking" onclick="startDecryption()">DECRYPT FILE</button>
+            <div id="firma" class="firma"></div>
+        </div>
+    </div>
+
+    <script>
+        // --- MATRIX RAIN EFFECT ---
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const chars = "01ABCDEFHIJKLMNOPRSTUVWXYZ0123456789$#+*<>%"; 
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+        const drops = Array(Math.floor(columns)).fill(1);
+
+        function drawMatrix() {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#0F0";
+            ctx.font = fontSize + "px monospace";
+            for(let i=0; i<drops.length; i++) {
+                const text = chars[Math.floor(Math.random()*chars.length)];
+                ctx.fillText(text, i*fontSize, drops[i]*fontSize);
+                if(drops[i]*fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            }
+        }
+        setInterval(drawMatrix, 35);
+
+        // --- LETTER LOGIC ---
+        const finalMessage = "HAPPY BIRTHDAY!\n\nI just wanted to say thank you for being such an excellent father. To me, you are more than a father-in-law; you are a father figure who has already left a mark on my heart.\n\nThank you for your wisdom, your example, and for accepting me as part of your life. May the code of this new year be filled with health and infinite joy.\n\nLove you so much!";
+
+        function startDecryption() {
+            document.getElementById('boton').style.display = "none";
+            document.getElementById('escritura').innerHTML = "";
+            let i = 0;
+            
+            function typeWriter() {
+                if (i < finalMessage.length) {
+                    let char = finalMessage.charAt(i);
+                    document.getElementById('escritura').innerHTML += char === "\n" ? "<br>" : char;
+                    i++;
+                    setTimeout(typeWriter, 45);
+                } else {
+                    document.getElementById('foto-suegro').style.display = "block";
+                    document.getElementById('titulo').innerHTML = "HAPPY BIRTHDAY!";
+                    document.getElementById('firma').innerHTML = "— With all my love, Gissell";
+                }
+            }
+            typeWriter();
+        }
+    </script>
+</body>
+</html>
