@@ -53,23 +53,6 @@
             white-space: pre-wrap;
         }
 
-        #foto-suegro {
-            display: none;
-            width: 180px;
-            height: 180px;
-            border: 3px solid #00FF41;
-            border-radius: 50%;
-            margin: 20px auto;
-            object-fit: cover;
-            box-shadow: 0 0 20px #00FF41;
-            animation: appearing 2s ease-in;
-        }
-
-        @keyframes appearing {
-            0% { opacity: 0; filter: brightness(500%); transform: scale(0.5); }
-            100% { opacity: 1; filter: brightness(100%); transform: scale(1); }
-        }
-
         .btn-hacking {
             display: block;
             margin: 20px auto;
@@ -89,11 +72,12 @@
 
         .firma {
             text-align: right;
-            margin-top: 20px;
+            margin-top: 30px;
             font-weight: bold;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             color: #00FF41;
             text-shadow: 0 0 10px #00FF41;
+            display: none; /* Se muestra al final */
         }
     </style>
 </head>
@@ -111,8 +95,6 @@
             
             <div class="mensaje-texto" id="escritura">SYSTEM: Personal file located. Waiting for user decryption...</div>
             
-            <img src="foto.jpg" id="foto-suegro" alt="Legendary Father">
-
             <button id="boton" class="btn-hacking" onclick="startDecryption()">DECRYPT FILE</button>
             <div id="firma" class="firma"></div>
         </div>
@@ -159,9 +141,10 @@
                     i++;
                     setTimeout(typeWriter, 45);
                 } else {
-                    document.getElementById('foto-suegro').style.display = "block";
                     document.getElementById('titulo').innerHTML = "HAPPY BIRTHDAY!";
-                    document.getElementById('firma').innerHTML = "— With all my love, Gissell";
+                    const firmaDiv = document.getElementById('firma');
+                    firmaDiv.style.display = "block";
+                    firmaDiv.innerHTML = "— With all my love, Gissell";
                 }
             }
             typeWriter();
